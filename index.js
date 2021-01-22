@@ -74,7 +74,7 @@ let allWagesFor = function () {
 }
 
 
-const calculatePayroll = (arr) => {
+let calculatePayroll = (arr) => {
     let payroll = arr.map(function(employee) {
         return allWagesFor(employee);
     });
