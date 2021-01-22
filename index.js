@@ -74,11 +74,3 @@ let allWagesFor = function () {
 }
 
 
-let calculatePayroll = (arr) => {
-    let payroll = arr.map(function(employee) {
-        return allWagesFor(employee);
-    });
-    return payroll.reduce(function(accumulator, currentValue) {
-        return accumulator + allWagesFor.call(currentValue)
-    },0);
-}
