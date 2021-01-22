@@ -8,69 +8,71 @@
  As a result, the lessons for this function will pass *and* it will be available
  for you to use if you need it!
  */
- let createEmployeeRecord = (arr) => {
-    let employee = {
-        firstName: arr[0],
-        familyName: arr[1],
-        title: arr[2],
-        payPerHour: arr[3],
-        timeInEvents: [],
-        timeOutEvents: [],
-    };
-    return employee;
+ let createEmployeeRecord = function(employeeAry){
+  let employee = {
+    firstName: employeeAry[0],
+    familyName: employeeAry[1],
+    title: employeeAry[2],
+    payPerHour: employeeAry[3],
+    timeInEvents: [],
+    timeOutEvents: []
+  }
+
+  return employee
 }
 
-let createEmployeeRecords = (arr) => {
-    return arr.map(function(employee) {
-        return createEmployeeRecord(employee);
-    })
+let createEmployeeRecords = function(aryAry){
+  let employeeRecords = aryAry.map(function (e){
+    return createEmployeeRecord(e)
+  })
+
+  return employeeRecords
 }
 
-let createTimeInEvent = function(dateStamp) {
-    let newEvent = {
-        type: "TimeIn",
-        date: dateStamp.split(' ')[0],
-        hour: parseInt(dateStamp.split(' ')[1])
-    };
-    this.timeInEvents.push(newEvent);
-    return this;
+let createTimeInEvent = function(date){
+  let timeInEvent = {
+    type: "TimeIn",
+    hour: parseInt(date.split(" ")[1]),
+    date: date.split(" ")[0]
+  }
+  let employee = this
+  employee.timeInEvents.push(timeInEvent)
+
+  return employee
 }
 
-let createTimeOutEvent = function(dateStamp) {
-    let newEvent = {
-        type: "TimeOut",
-        date: dateStamp.split(' ')[0],
-        hour: parseInt(dateStamp.split(' ')[1])
-    };
-    this.timeOutEvents.push(newEvent);
-    return this;
+let createTimeOutEvent = function(date){
+  let timeOutEvent = {
+    type: "TimeOut",
+    hour: parseInt(date.split(" ")[1]),
+    date: date.split(" ")[0]
+  }
+  let employee = this
+  employee.timeOutEvents.push(timeOutEvent)
+
+  return employee
 }
 
-const hoursWorkedOnDate = function(date) {
-    let timeInEvent = this.timeInEvents.find(e => e.date === date)
-    let hourIn = timeInEvent.hour
-    let timeOutEvent = this.timeOutEvents.find(e => e.date === date)
-    let hourOut = timeOutEvent.hour
-    return parseInt((hourOut - hourIn)/100);
+let hoursWorkedOnDate = function(date){
+  let timeIn = this.timeInEvents.find(timeEvent => timeEvent.date === date).hour;
+  let timeOut = this.timeOutEvents.find(timeEvent => timeEvent.date === date).hour;
+
+  return (timeOut - timeIn)/100;
 }
 
-const wagesEarnedOnDate = function(date) {
-    return parseInt(hoursWorkedOnDate.call(this, date) * this.payPerHour);
+let wagesEarnedOnDate = function(date){
+  return hoursWorkedOnDate.call(this, date) * this.payPerHour
 }
 
-const findEmployeeByFirstName = (srcArray, firstName) => {
-    return srcArray.find(employee => employee.firstName === firstName);
-}
-let allWagesFor = function () {
-    let eligibleDates = this.timeInEvents.map(function (e) {
-        return e.date
-    })
-
-    let payable = eligibleDates.reduce(function (memo, d) {
-        return memo + wagesEarnedOnDate.call(this, d)
-    }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
-
-    return payable
+let findEmployeeByFirstName = function(employeeRecords, firstNameString){
+  return employeeRecords.find(employee => employee.firstName == firstNameString);
 }
 
+let calculatePayroll = function(employeeRecords){
+  let payrole = employeeRecords.reduce(function (pay, employee) {
+      return pay + allWagesFor.call(employee)
+  }, 0)
+
+  return payrole
+}
 
